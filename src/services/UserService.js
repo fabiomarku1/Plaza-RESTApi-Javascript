@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const UserRepository = require('../repositories/UserRepository');
+const { BadRequest, NotFound } = require("../errors/errorHandler");
 
 class UserService {
   constructor() {
@@ -20,7 +21,13 @@ class UserService {
   }
 
   async getUserById(id) {
-    return await this.userRepository.getUserById(id);
+    const user=await this.userRepository.getUserById(id);
+    if(user == null)
+     console.log(" ITS IS FCKKKKK MEPTYYY");
+    if (!user) {
+      throw new NotFound(`User with ID ${userId} not found`);
+    }
+    return user ;
   }
 
   async getUserById(email) {
@@ -36,6 +43,8 @@ class UserService {
   }
 
   async getUsers() {
+    console.log(" alll users hereee");
+    throw new NotFound(" just an exception");
     return await this.userRepository.getUsers();
   }
 }
